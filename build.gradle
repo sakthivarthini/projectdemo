@@ -1,13 +1,10 @@
 plugins {
-  id "org.springframework.boot" version "1.5.1.RELEASE"
+  id "org.springframework.boot" version "2.0.0.RELEASE"
   id "org.flywaydb.flyway" version "4.1.1"
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = "3.3"
-}
-
-ext {
+  gradleVersion = "4.0" // Upgrade Gradle version to match newer Spring Boot requirements
 }
 
 flyway {
@@ -15,7 +12,6 @@ flyway {
   driver = "com.mysql.cj.jdbc.Driver"
   user = "root"
   password = ""
-
 }
 
 apply plugin: "java"
@@ -29,27 +25,27 @@ repositories {
 }
 
 dependencies {
-  compile("org.projectlombok:lombok:1.16.14")
-  compile("com.google.guava:guava:21.0")
-  compile("mysql:mysql-connector-java:6.0.5")
-  compile("org.springframework.boot:spring-boot-starter-web") {
+  implementation("org.projectlombok:lombok:1.16.14")
+  implementation("com.google.guava:guava:21.0")
+  implementation("mysql:mysql-connector-java:6.0.5")
+  implementation("org.springframework.boot:spring-boot-starter-web") {
     exclude module: "spring-boot-starter-tomcat"
   }
-  compile("org.springframework.boot:spring-boot-starter-jetty")
-  compile("org.springframework.boot:spring-boot-starter-jdbc")
-  compile("org.springframework.boot:spring-boot-starter-security")
-  compile("org.springframework.boot:spring-boot-devtools")
-  compile("org.springframework.session:spring-session")
-  testCompile("junit:junit:4.12")
-  testCompile("org.assertj:assertj-core:3.6.2")
-  testCompile("org.springframework.boot:spring-boot-starter-test")
+  implementation("org.springframework.boot:spring-boot-starter-jetty")
+  implementation("org.springframework.boot:spring-boot-starter-jdbc")
+  implementation("org.springframework.boot:spring-boot-starter-security")
+  developmentOnly("org.springframework.boot:spring-boot-devtools")
+  implementation("org.springframework.session:spring-session")
+  testImplementation("junit:junit:4.12")
+  testImplementation("org.assertj:assertj-core:3.6.2")
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 bootRun {
   addResources = true
 }
 
-bootRepackage {
-  mainClass = "com.rkaneko.rest.Application"
+bootJar {
+  mainClassName = "com.rkaneko.rest.Application"
   executable = true
 }
